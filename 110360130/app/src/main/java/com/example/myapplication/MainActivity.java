@@ -4,18 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         if(mapFragment!=null) {
-            mapFragment.getMapAsync((this);
+            mapFragment.getMapAsync(this);
         }
     }
     
@@ -57,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         if (ActivityCompat.checkSelfPermission(
-                this,android.Manifest.permission.ACCESS_FINE_LOCATION)!=PackageManager.PERMISSION_GRANTED &&
+                this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(
-                        this,Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED) {
+                        this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
 
         googleMap.setMyLocationEnabled(true);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(new LatLng(25.033611,121.565000));
-        markerOptions.title("Taiper 101");
+        markerOptions.title("Taipei 101");
         markerOptions.draggable(true);
 
         googleMap.addMarker(markerOptions);
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
         polyline.setWidth(10);
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(25.034,121.545),13));
-    }
+
+
+}
 
 }
